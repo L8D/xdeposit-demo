@@ -75,3 +75,46 @@ describe('AaveSupply', async () => {
     )
   })
 })
+
+describe('AaveWithdraw', async () => {
+  it('deploys', async () => {
+    const {
+      contracts: { configManager, aaveSupplyAction, aaveWithdrawAction },
+      mockWorkflowInstance,
+    } = await setup()
+    // simple sanity check to make sure that the action registered itself during deployment
+    await validateAction(configManager, STEP_TYPE_ID, aaveSupplyAction.address, aaveSupplyAction.address)
+  })
+
+  it('executes', async () => {
+    const {
+      users: { otherUser },
+      contracts: { aaveSupplyAction, aaveWithdrawAction },
+      mockWorkflowInstance,
+      usdt,
+    } = await setup()
+
+    const stepConfig: AaveSupply = {
+      type: 'aave-supply',
+      asset: {
+        type: 'fungible-token',
+        symbol: 'USDT',
+      },
+      amount: testAmount,
+    }
+    const helper = new AaveSupplyHelper(mockWorkflowInstance)
+
+    const context: EncodingContext<AaveSupply> = {
+      userAddress: otherUser,
+      chain: 'ethereum',
+      stepConfig,
+      mapStepIdToIndex: new Map<string, number>(),
+    }
+    const encoded = await helper.encodeWorkflowStep(context)
+    await expect(aaveSupplyAction.execute(encoded.inputAssets, encoded.argData)).to.changeTokenBalance(
+      usdt,
+      aaveSupplyAction.address,
+      testAmount * -1
+    )
+  })
+})
