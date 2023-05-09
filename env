@@ -1,0 +1,11 @@
+export WALLET_MNEMONIC=address slogan uncle earth basic vast hip slender mixed broken race review
+export ARBITRUM_MAINNET_URL=https://arbitrum-mainnet.infura.io/v3/b3b072b551ea4092b120e69eb5f43993
+export ARBITRUM_MAINNET_WS_URL=wss://arb-mainnet.g.alchemy.com/v2/yWnJeHacthb7r5kxYkFctX0Yzr2Tvx23
+export ETHEREUM_MAINNET_URL=https://mainnet.infura.io/v3/b3b072b551ea4092b120e69eb5f43993
+export AVALANCHE_MAINNET_URL=https://avalanche-mainnet.infura.io/v3/b3b072b551ea4092b120e69eb5f43993
+export OPTIMISM_MAINNET_URL=https://opt-mainnet.g.alchemy.com/v2/Oz9LR0PDetTSQ7EXYyWvGAHeoshkgqto
+export ETHEREUM_GOERLI_URL=https://goerli.infura.io/v3/b3b072b551ea4092b120e69eb5f43993
+#export ARBITRUM_GOERLI_URL=https://arb-goerli.g.alchemy.com/v2/FpGe-w2kZXUQfLrGZt5SaV7suIQJWMe-
+export ARBITRUM_GOERLI_URL=https://goerli-rollup.arbitrum.io/rpc
+export ARBITRUM_GOERLI_WS_URL=wss://arb-goerli.g.alchemy.com/v2/FpGe-w2kZXUQfLrGZt5SaV7suIQJWMe-
+export AVALANCH_GOERLIE_URL=https://avalanche-fuji.infura.io/v3/b3b072b551ea4092b120e69eb5f43993
