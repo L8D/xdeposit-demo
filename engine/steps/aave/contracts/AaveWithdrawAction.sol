@@ -18,8 +18,8 @@ using LibErc20 for IERC20;
 contract AaveWithdrawAction is IWorkflowStep {
     address public immutable poolAddress;
 
-    /// @notice This event is emitted when an Aave 'supply' action is executed.
-    /// @param inputAssetAmount the asset and amout being supplied to Aave.
+    /// @notice This event is emitted when an Aave 'withdraw' action is executed.
+    /// @param inputAssetAmount the asset and amout being withdrawn to Aave.
     event AaveWithdrawActionEvent(AssetAmount inputAssetAmount);
 
     constructor(address _aavePoolAddress) {
@@ -61,10 +61,12 @@ contract AaveWithdrawAction is IWorkflowStep {
         // take note of the before balance
         locals.aTokenBalanceBefore = locals.aToken.balanceOf(address(this));
 
-        // invoke supply
+        // invoke withdraw
         locals.pool.withdraw(assetAmounts[0].asset.assetAddress, assetAmounts[0].amount, address(this), 0);
+        locals.collateralBalanceAfter = locals.inputToken.balance(address(this))
+        require(locals.collateralBalanceAfter > locals.collateralBalanceBefore, "Collateral did not increase")
         locals.aTokenBalanceAfter = locals.aToken.balanceOf(address(this));
-        require(locals.aTokenBalanceAfter > locals.aTokenBalanceBefore, "aToken balance did not decrease");
+        require(locals.aTokenBalanceAfter < locals.aTokenBalanceBefore, "aToken balance did not decrease");
 
         return LibStepResultBuilder.create(1, 1).addInputAssetAmount(assetAmounts[0]).addOutputToken(
             locals.reserveData.aTokenAddress, locals.aTokenBalanceAfter - locals.aTokenBalanceBefore
